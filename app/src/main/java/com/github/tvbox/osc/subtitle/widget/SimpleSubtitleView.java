@@ -239,7 +239,7 @@ public class SimpleSubtitleView extends TextView
     private void drawBackGroundText() {
         TextPaint tp = backGroundText.getPaint();
         //设置描边宽度
-        tp.setStrokeWidth(10);
+        tp.setStrokeWidth(6);
         //背景描边并填充全部
         tp.setStyle(Paint.Style.FILL_AND_STROKE);
         //设置描边颜色
