@@ -44,7 +44,7 @@ public class SelectDialog<T> extends BaseDialog {
         tvRecyclerView.post(new Runnable() {
             @Override
             public void run() {
-                tvRecyclerView.smoothScrollToPosition(select);
+                tvRecyclerView.scrollToPosition(select);
             }
         });
     }
