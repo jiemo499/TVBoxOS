@@ -4,7 +4,10 @@ import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.bean.SourceBean;
 import com.orhanobut.hawk.Hawk;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class SearchHelper {
 
@@ -32,6 +35,16 @@ public class SearchHelper {
             }
         }
         return mCheckSources;
+    }
+    
+    public static List<String> splitWords(String text) {
+        List<String> result = new ArrayList<>();
+        result.add(text);
+        String[] parts = text.split("\\W+");
+        if (parts.length > 1) {
+            result.addAll(Arrays.asList(parts));
+        }
+        return result;
     }
 
     public static void putCheckedSources(HashMap<String, String> mCheckSources) {
