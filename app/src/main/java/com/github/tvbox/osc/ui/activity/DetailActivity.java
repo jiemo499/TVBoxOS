@@ -446,7 +446,7 @@ public class DetailActivity extends BaseActivity {
         w += 32;
         int screenWidth = getWindowManager().getDefaultDisplay().getWidth()/3;
         int offset = screenWidth/w;
-        if(offset <=1) offset =1;
+        if(offset <=2) offset =2;
         if(offset > 6) offset =6;
         this.mGridViewLayoutMgr.setSpanCount(offset);
 
