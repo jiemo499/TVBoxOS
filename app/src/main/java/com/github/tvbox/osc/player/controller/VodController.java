@@ -152,9 +152,11 @@ public class VodController extends BaseController {
         }
     };
 
-
-
-
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mHandler.removeCallbacks(mTimeRunnable);
+    }
 
     @Override
     protected void initView() {
