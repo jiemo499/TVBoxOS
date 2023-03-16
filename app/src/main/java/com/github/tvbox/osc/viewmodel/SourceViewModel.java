@@ -698,6 +698,7 @@ public class SourceViewModel extends ViewModel {
                             JSONObject result = new JSONObject(json);
                             result.put("key", url);
                             result.put("proKey", progressKey);
+                            result.put("subtKey", subtitleKey);
                             if (!result.has("flag"))
                                 result.put("flag", playFlag);
                             playResult.postValue(result);
