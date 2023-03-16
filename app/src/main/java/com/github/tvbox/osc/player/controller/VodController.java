@@ -577,7 +577,7 @@ public class VodController extends BaseController {
                 mSubtitleView.destroy();
                 mSubtitleView.clearSubtitleCache();
                 mSubtitleView.isInternal = false;
-                hideBottom();
+//                hideBottom();
                 Toast.makeText(getContext(), "字幕已关闭", Toast.LENGTH_SHORT).show();
                 return true;
             }
