@@ -497,7 +497,6 @@ public class HomeActivity extends BaseActivity {
     private void showFilterIcon(int count) {
         boolean activated = count > 0;
         currentView.findViewById(R.id.tvFilter).setVisibility(View.VISIBLE);
-        ImageView imgView = currentView.findViewById(R.id.tvFilter);
     }
 
     private Runnable mDataRunnable = new Runnable() {
