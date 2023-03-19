@@ -82,7 +82,7 @@ String getpath() {
         //内部存储
         datapath = Environment.getExternalStorageDirectory().getAbsolutePath();
     } else {
-        //支持U盘路径
+        //获取U盘路径
         String[] strArr = new String[] {
             "/mnt/usb/", //mnt/usb/xxxx-xxxx
             "/storage/usb/", //storage/usb/xxxx-xxxx
@@ -90,8 +90,8 @@ String getpath() {
             "/mnt/" //mnt/xxxx-xxxx
         };
         for (int i = 0; i < strArr.length; i++) {
-            File[] listFiles = new File(strArr[i]).listFiles();
             if (datapath == null || datapath == "") {
+                File[] listFiles = new File(strArr[i]).listFiles();
                 if (listFiles != null && listFiles.length > 0) {
                     for (File file: listFiles) {
                         if (file.isDirectory() && file.getName().length() == 9 && file.getName().indexOf("-") == 4) {
@@ -100,6 +100,8 @@ String getpath() {
                         }
                     }
                 }
+            } else {
+                break;
             }
         }
         if (datapath == null || datapath == "") {
