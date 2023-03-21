@@ -153,7 +153,6 @@ public class ApiConfig {
                     public void onSuccess(Response<String> response) {
                         try {
                             String json = response.body();
-                            json = FindResult(json, configKey);
                             parseJson(apiUrl, json);
                             try {
                                 File cacheDir = cache.getParentFile();
@@ -195,8 +194,9 @@ public class ApiConfig {
                         if (response.body() == null) {
                             result = "";
                         } else {
-                            result = response.body().string();
+                            result = FindResult(response.body().string(), configKey);
                         }
+                        
                         if (apiUrl.startsWith("clan")) {
                             result = clanContentFix(clanToAddress(apiUrl), result);
                         }
@@ -346,7 +346,7 @@ public class ApiConfig {
         // 直播源
         liveChannelGroupList.clear();           //修复从后台切换重复加载频道列表
         try {
-            String lives = infoJson.get("lives").getAsJsonArray().toString();
+            String lives = infoJson.get("lives").getAsJsonArray().get(0).getAsJsonObject().toString();
             int index = lives.indexOf("proxy://");
             if (index != -1) {
                 int endIndex = lives.lastIndexOf("\"");
@@ -374,7 +374,7 @@ public class ApiConfig {
                 liveChannelGroup.setGroupName(url);
                 liveChannelGroupList.add(liveChannelGroup);
             } else {
-                if(lives.contains("group")){
+                if(!lives.contains("type")){
                     loadLives(infoJson.get("lives").getAsJsonArray());
                 }else {
                     JsonObject fengMiLives = infoJson.get("lives").getAsJsonArray().get(0).getAsJsonObject();
