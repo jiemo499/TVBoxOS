@@ -59,7 +59,8 @@ public class App extends MultiDexApplication {
         if (!Hawk.contains(HawkConfig.PLAY_TYPE)) {
             Hawk.put(HawkConfig.PLAY_TYPE, 1);
         }
-        //自定义默认配置，硬解，安全dns，缩略图
+        //自定义默认配置，硬解，安全dns，缩略图      
+        private void initParams() {
 
         putDefault(HawkConfig.HOME_REC, 2);       // Home Rec 0=豆瓣, 1=推荐, 2=历史
         putDefault(HawkConfig.PLAY_TYPE, 1);      // Player   0=系统, 1=IJK, 2=Exo
@@ -68,6 +69,7 @@ public class App extends MultiDexApplication {
         putDefault(HawkConfig.HOME_NUM, 2);       // History Number
         putDefault(HawkConfig.DOH_URL, 2);        // DNS
         putDefault(HawkConfig.SEARCH_VIEW, 2);    // Text or Picture
+        }
     }
 
     public static App getInstance() {
