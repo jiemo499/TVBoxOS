@@ -521,7 +521,7 @@ public class LivePlayActivity extends BaseActivity {
             }
             if(!tip_epg1.getText().equals("暂无信息")){
                 ll_epg.setVisibility(View.VISIBLE);
-                countDownTimer = new CountDownTimer(8000, 1000) {//底部epg隐藏时间设定
+                countDownTimer = new CountDownTimer(4000, 1000) {//底部epg隐藏时间设定
                     public void onTick(long j) {
                     }
                     public void onFinish() {
