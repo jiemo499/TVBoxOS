@@ -465,7 +465,7 @@ public class LivePlayActivity extends BaseActivity {
                      public void onError(Response<String> response) {
                          //super.onError(response);
 			 showEpg(date, new ArrayList());
-                         //showBottomEpg();
+                         showBottomEpg();
                      }
                 });
     }
@@ -475,12 +475,9 @@ public class LivePlayActivity extends BaseActivity {
         if (isSHIYI)
             return;
     if (channel_Name.getChannelName() != null) {
-            tip_chname.setText(channel_Name.getChannelName());
+	    tip_chname.setText(channel_Name.getChannelName());
             tv_channelnum.setText("" + channel_Name.getChannelNum());
-            tip_epg1.setText("暂无节目信息");
-            tv_curepg_left.setText("");
-            tip_epg2.setText("开源测试软件,请勿商用以及播放违法内容");
-            tv_nextepg_left.setText("");
+            //showChannelInfo();
             String savedEpgKey = channel_Name.getChannelName() + "_" + liveEpgDateAdapter.getItem(liveEpgDateAdapter.getSelectedIndex()).getDatePresented();
             if (hsEpg.containsKey(savedEpgKey)) {
                 String[] epgInfo = EpgUtil.getEpgInfo(channel_Name.getChannelName());
@@ -497,8 +494,8 @@ public class LivePlayActivity extends BaseActivity {
                                 tip_epg2.setText(((Epginfo) arrayList.get(size + 1)).start + "--" + ((Epginfo) arrayList.get(size + 1)).end);
                                 tv_nextepg_left.setText(((Epginfo) arrayList.get(size + 1)).title);
                             } else {
-                                tip_epg2.setText("00:00 - 23:59");
-                                tv_nextepg_left.setText("No Information");
+                                tip_epg2.setText("00:00--23:59");
+                                tv_nextepg_left.setText("精彩节目");
                             }
                             break;
                         } else {
@@ -521,7 +518,7 @@ public class LivePlayActivity extends BaseActivity {
             }
             if(!tip_epg1.getText().equals("暂无信息")){
                 ll_epg.setVisibility(View.VISIBLE);
-                countDownTimer = new CountDownTimer(4000, 1000) {//底部epg隐藏时间设定
+                countDownTimer = new CountDownTimer(5000, 1000) {//底部epg隐藏时间设定
                     public void onTick(long j) {
                     }
                     public void onFinish() {
@@ -544,7 +541,7 @@ public class LivePlayActivity extends BaseActivity {
             if (countDownTimerRightTop != null) {
                 countDownTimerRightTop.cancel();
             }
-            countDownTimerRightTop = new CountDownTimer(5000, 1000) {
+            countDownTimerRightTop = new CountDownTimer(2000, 1000) {
 
                 public void onTick(long j) {
                 }
