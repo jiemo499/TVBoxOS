@@ -996,7 +996,7 @@ public class VodController extends BaseController {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
-        if (isBottomVisible() && mFFwdBtn.isFocused()) {
+        if (isBottomVisible() && mPlayerSpeedBtn.isFocused()) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                     try {
