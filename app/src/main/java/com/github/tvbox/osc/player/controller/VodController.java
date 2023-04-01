@@ -851,6 +851,91 @@ public class VodController extends BaseController {
         mHandler.removeMessages(1002);
         mHandler.sendEmptyMessage(1003);
     }
+    
+    void increasePlaySpeed(float speed) {
+        if (speed == 5) {
+            speed = 0.25f;
+        } else if (speed >= 2 & speed < 3) {
+            speed += 0.5f;
+        } else if (speed >= 3) {
+            speed += 1.0f;
+        } else {
+            speed += 0.25f;
+        }
+        setPlaySpeed(speed);
+    }
+
+    void decreasePlaySpeed(float speed) {
+        if (speed == 0.25f) {
+            speed = 5.0f;
+        } else if (speed > 3) {
+            speed -= 1.0f;
+        } else if (speed > 2 & speed <= 3) {
+            speed -= 0.5f;
+        } else {
+            speed -= 0.25f;
+        }
+        setPlaySpeed(speed);
+    }
+
+    void setPlaySpeed(float value) {
+        try {
+            mPlayerConfig.put("sp", value);
+            updatePlayerCfgView();
+            listener.updatePlayerCfg();
+            mControlWrapper.setSpeed(value);
+        } catch (JSONException err) {
+            err.printStackTrace();
+        }
+    }
+
+    void increaseTime(String type) {
+        try {
+            int step = Hawk.get(HawkConfig.PLAY_TIME_STEP, 5);
+            int time = mPlayerConfig.getInt(type);
+            time += step;
+            if (time > 30 * 10)
+                time = 0;          // 600 = 10 mins
+            mPlayerConfig.put(type, time);
+
+//            // takagen99: Reference FongMi to get exact opening skip time
+//            int current = (int) mControlWrapper.getCurrentPosition();
+//            int duration = (int) mControlWrapper.getDuration();
+//            if (current > duration / 2) return;
+//            mPlayerConfig.put("st", current / 1000);
+
+            updatePlayerCfgView();
+            listener.updatePlayerCfg();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void decreaseTime(String type) {
+        try {
+            int step = Hawk.get(HawkConfig.PLAY_TIME_STEP, 5);
+            int time = mPlayerConfig.getInt(type);
+            time -= step;
+            if (time < 0)
+                time = (30 * 10);
+            mPlayerConfig.put(type, time);
+
+//            // takagen99: Reference FongMi to get exact ending skip time
+//            int current = (int) mControlWrapper.getCurrentPosition();
+//            int duration = (int) mControlWrapper.getDuration();
+//            if (current < duration / 2) return;
+//            mPlayerConfig.put("et", (duration - current) / 1000);
+
+            updatePlayerCfgView();
+            listener.updatePlayerCfg();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // takagen99 : Check Pause
+    private boolean isPaused = false;
+    private boolean isKeyUp = false;
 
     @Override
     public boolean onKeyEvent(KeyEvent event) {
@@ -886,11 +971,63 @@ public class VodController extends BaseController {
                     return true;
                 }
             }
-        } else if (action == KeyEvent.ACTION_UP) {
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                if (!isBottomVisible()) {
+                    showBottom();
+                    isKeyUp = true;
+                    return true;
+                }
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                if (!isBottomVisible()) {
+                    showBottom();
+                    return true;
+                }
+            }else if (action == KeyEvent.ACTION_UP) {
             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
                 if (isInPlayback) {
                     tvSlideStop();
                     return true;
+                }
+            }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+    
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        if (isBottomVisible() && mFFwdBtn.isFocused()) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                    try {
+                        float speed = (float) mPlayerConfig.getDouble("sp");
+                        increasePlaySpeed(speed);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    try {
+                        float speed = (float) mPlayerConfig.getDouble("sp");
+                        decreasePlaySpeed(speed);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } else if (isBottomVisible() && mPlayerTimeStartBtn.isFocused()) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                    increaseTime("st");
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    decreaseTime("st");
+                }
+            }
+        } else if (isBottomVisible() && mPlayerTimeSkipBtn.isFocused()) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                    increaseTime("et");
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    decreaseTime("et");
                 }
             }
         }
