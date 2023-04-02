@@ -199,10 +199,12 @@ public class HomeActivity extends BaseActivity {
         this.mGridView.setOnInBorderKeyEventListener(new TvRecyclerView.OnInBorderKeyEventListener() {
             public final boolean onInBorderKeyEvent(int direction, View view) {
                 if(direction == View.FOCUS_UP){
-                    BaseLazyFragment baseLazyFragment = fragments.get(sortFocused);
-                    if ((baseLazyFragment instanceof GridFragment) ) {// 弹出筛选
-                        ((GridFragment) baseLazyFragment).forceRefresh();
-                    }
+                    Intent intent =new Intent(getApplicationContext(), HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("useCache", true);
+                    intent.putExtras(bundle);
+                    HomeActivity.this.startActivity(intent);
                 }
                 if (direction != View.FOCUS_DOWN) {
                     return false;
