@@ -9,7 +9,7 @@
             android:id="@+id/tv_top_l_container"
             android:background="@drawable/box_controller_top_bg"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/vs_128"
+            android:layout_height="@dimen/vs_108"
             android:tag="tv_top_container"
             android:visibility="gone"
             tools:visibility="visible"
