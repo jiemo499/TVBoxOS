@@ -722,6 +722,7 @@ public class PlayActivity extends BaseActivity {
         }
         stopLoadWebView(true);
         stopParse();
+        Thunder.stop(); // 停止磁力下载
     }
 
     private VodInfo mVodInfo;
